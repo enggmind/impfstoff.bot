@@ -18,7 +18,7 @@ backup: ## Backup and mention amount of telegram users
 clear: clean
 clean: ## Clear stuff
 	npm run clean
-	sudo pm2 delete npm
+	sudo ./node_modules/pm2/bin/pm2 delete npm
 
 restart: ## Restart the app
 	make start
@@ -26,11 +26,11 @@ restart: ## Restart the app
 
 logs: log
 log: ## Check upon recent logs in pm2
-	sudo pm2 log npm
+	sudo ./node_modules/pm2/bin/pm2 log npm
 
 start: ## Start prod
 	make build
-	sudo pm2 start npm -- start
+	sudo ./node_modules/pm2/bin/pm2 start npm -- start
 
 build: ## Build for prod env
 	npm run build

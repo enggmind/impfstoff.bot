@@ -1,9 +1,12 @@
 import fetch from 'node-fetch'
-
-const IMPFSTOFF_LINK_URL = process.env.API || `https://api.impfstoff.link/?robot=1`
-
-export type VenueId = 'arena' | 'tempelhof' | 'messe' | 'velodrom' | 'tegel' | 'erika'
-export type DateKey = `${number}-${number}-${number}`
+const DoctoLiburls = new Map([
+  ["arena", 'https://bit.ly/3oOdoIv'],
+  ["tempelhof", 'https://bit.ly/3wsyqip'],
+  ["messe", 'https://bit.ly/3oKTcrd'],
+  ["velodrom", 'https://bit.ly/2TigbhH'],
+  ["tegel", 'https://bit.ly/2Sjhj3W'],
+  ["erika", 'https://bit.ly/3vhMvPM'],
+]);
 
 export interface ImpfstoffLinkStats {
   percent: number
@@ -11,21 +14,23 @@ export interface ImpfstoffLinkStats {
   count: number
 }
 
-export interface ImpfstoffLinkVenue {
-  id: VenueId
-  name: string
-  open: boolean
-  lastUpdate?: number
-  stats: { [date: string]: ImpfstoffLinkStats }
+export interface ImpfstoffAvl {
+  date: string
+  substitution?: string
+  slots: []
 }
 
 export interface ImpfstoffLinkResponse {
-  language: string
-  stats: ImpfstoffLinkVenue[]
+  total: number
+  reason: string
+  message: string
+  number_future_vaccinations: number
+  availabilities: ImpfstoffAvl[]
 }
 
-export async function fetchImpfstoffLink(): Promise<ImpfstoffLinkResponse> {
-  const request = await fetch(IMPFSTOFF_LINK_URL)
+export async function fetchImpfstoffLink(place: string): Promise<ImpfstoffLinkResponse> {
+  const link = DoctoLiburls.get(place)
+  const request = await(fetch(link!))
   const response = await request.json()
 
   return response
