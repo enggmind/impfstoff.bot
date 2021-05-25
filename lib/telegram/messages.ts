@@ -46,7 +46,7 @@ export function getJoin(userIds: number[], chat: TelegramBot.Chat): Message {
   return {
     id,
     message:
-      '👋🏼 Welcome to the team. Just wait for new avail. appointments now. In the meantime, feel free to check upon this website overall avail. dates: https://impfstoff.link/',
+      '👋🏼 Welcome to the team. Just wait for new avail. appointments now. In the meantime, feel free to check upon this website overall avail. dates: https://doctolib.de/',
   }
 }
 
@@ -123,7 +123,7 @@ export function getTwitter(chat: TelegramBot.Chat): Message {
 
   return {
     id,
-    message: '🐥 Also, check out our Twitter bot here: https://twitter.com/impfstoffBot ❤️',
+    message: '🐥 We are not on twitter, what a shame ❤️',
     options: {
       [DISABLE_PAGE_PREVIEW]: true,
     },
@@ -142,12 +142,7 @@ export function getContribute(chat: TelegramBot.Chat, shouldLog = false): Messag
     },
     message: `Hey ${
       chat.first_name || 'you'
-    }, there are a few ways you may contribute with the bot! I appreciate your interest in advance, whatever it is! 💖\n\n\
-Since there is involved costs in aws machines and efforts around an open-source project in GitHub (link at the bottom), the options are:\n\n\
-💰 Use PayPal for whatever amount you wish: https://paypal.me/guicheffer\n\
-🍺 Buy me a beer: https://www.buymeacoffee.com/guicheffer\n\
-❗️ Open issues and pull requests in our repo here: https://github.com/guicheffer/impfstoff.bot\n
-📢 Feel free to give your feedback on this Reddit thread: https://www.reddit.com/r/berlin/comments/mzo067/availability_of_appointments_for_the_vaccination/\n\n\
-I am happy to help you finding vaccine slots and we'll be definitely adding new features and fixes into this and the twitter bot. I appreciate your help! ❤️`,
+    }, Am enggmind, I made this bot to read from commandline , the base fork is from  https://github.com/guicheffer/impfstoff
+❗️ Open issues and pull requests in our repo here: https://github.com/enggmind/impfstoff.bot\n❤️`,
   }
 }

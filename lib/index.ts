@@ -3,9 +3,7 @@ dotenv.config()
 
 import { send } from './bots'
 import { logger } from './logger'
-import { fetchImpfstoffLink } from './impfstoff-link'
-
-const TIMER_BOT_FETCH = 2 * 1000 // 2 seconds
+import readline from 'readline'
 
 const urls = new Map([
   ['arena', 'https://bit.ly/2PL4I8J'],
@@ -16,24 +14,30 @@ const urls = new Map([
   ['erika', 'https://bit.ly/2QIki5J'],
 ]);
 
+const rl = readline.createInterface({
+    input: process.stdin,
+    crlfDelay: Infinity
+});
+
 // Interval for checking vaccines appointment
 let it = urls.entries()
-setInterval(() => {
+rl.on('line', (line) => {
   const msgsQueue: string[] = []
   let next = it.next()
   if(next.done) {
       it = urls.entries()
       next = it.next()
+      logger.info(`❤️'`)
   }
   const place = next.value[0]
-  const link = next.value[0]
-  logger.info(`Polled _${place}_`)
-  fetchImpfstoffLink(place)
-  .then((json) => {
-      logger.info(`Polled _${place}_ got ${json.toString()}`)
+  const link = next.value[1]
+  try {
+      const json = JSON.parse(line)
       if (json.total > 0)
-          msgsQueue.push(`💉 Available slots in _${place}_ at link ${link}`)
-      msgsQueue.forEach((message) => send(message))
-  })
-    .catch((error) => logger.error({ error }, 'FAILED_FETCH'))
-}, TIMER_BOT_FETCH)
+      msgsQueue.push(`💉 Available slots in _${place}_ at link ${link}`)
+  } catch(e) {
+      logger.info(`caught excepetion ${e.toString()} got ${line}`)
+      process.exit(1)
+  }
+  msgsQueue.forEach((message) => send(message))
+})
